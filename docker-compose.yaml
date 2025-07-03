@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8080
+    volumes:
+      - .:/var/www/app
+      - app-static-data:/app/public
+    environment:
+      DB_URL: "postgres://admin:admin@db:5432/recipe?sslmode=disable"
+  db:
+    image: postgres:16.9-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: recipe
+
+volumes:
+  db-data:
+  app-static-data:

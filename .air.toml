@@ -1,0 +1,5 @@
+[build]
+	bin = "./tmp/main"
+	cmd = "go build -o ./tmp/main ."
+	post_cmd = ["chmod +x ./tmp/main"]
+
