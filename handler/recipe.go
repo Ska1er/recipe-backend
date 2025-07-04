@@ -59,7 +59,8 @@ func (handler *RecipeHandler) GetHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, recipe)
+	dto := internal.NewRecipeFromEntity(*recipe)
+	c.JSON(http.StatusOK, dto)
 }
 
 func (handler *RecipeHandler) ListHandler(c *gin.Context) {
@@ -75,8 +76,13 @@ func (handler *RecipeHandler) ListHandler(c *gin.Context) {
 		return
 	}
 
+	dto := make([]internal.RecipeDTO, 0, len(recipes))
+	for _, recipe := range recipes {
+		dto = append(dto, *internal.NewRecipeFromEntity(recipe))
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"recipes":   recipes,
+		"recipes":   dto,
 		"totalPage": math.Ceil(float64(count / pageSize)),
 		"total":     count,
 	})

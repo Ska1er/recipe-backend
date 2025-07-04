@@ -8,7 +8,7 @@ type CreateRecipeRequest struct {
 	Name        string                           `json:"name" binding:"required,max=100"`
 	Description *string                          `json:"description" binding:"required"`
 	Image       string                           `json:"image" binding:"required,max=200"`
-	CookingTime int                              `json:"cooking_time" binding:"required"`
+	CookingTime int                              `json:"cookingTime" binding:"required"`
 	Difficulty  model.RecipeDifficulty           `json:"difficulty" binding:"required"`
 	Steps       []*CreateRecipeStepRequest       `json:"steps" binding:"required"`
 	Ingredients []*CreateRecipeIngredientRequest `json:"ingredients"`
