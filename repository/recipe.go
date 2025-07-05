@@ -169,7 +169,7 @@ func (repo *RecipePostgresRepository) Save(recipe *model.Recipe) error {
 
 func (repo *RecipePostgresRepository) Get(page, pageSize int, search string) ([]model.Recipe, int, error) {
 	offset := (page - 1) * pageSize
-	countQuery := `SELECT COUNT(*) FROM recipes r`
+	countQuery := `SELECT COUNT(*) FROM recipes r WHERE r.is_visible = true`
 	query := `SELECT 
 			r.id,
 			r.name,
@@ -182,11 +182,12 @@ func (repo *RecipePostgresRepository) Get(page, pageSize int, search string) ([]
 			r.created_at,
 			r.updated_at
 		FROM recipes r
+		WHERE r.is_visible = true
 		`
 	var args []any = make([]any, 0, 3)
 	if search != "" {
-		query += ` WHERE r.name ILIKE '%' || $1 || '%'`
-		countQuery += ` WHERE r.name ILIKE '%' || $1 || '%'`
+		query += ` AND r.name ILIKE '%' || $1 || '%'`
+		countQuery += ` AND r.name ILIKE '%' || $1 || '%'`
 		args = append(args, search)
 	}
 
